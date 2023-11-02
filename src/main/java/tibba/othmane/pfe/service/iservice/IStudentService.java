@@ -8,9 +8,11 @@ import tibba.othmane.pfe.dtos.student.CreateStudentDto;
 import tibba.othmane.pfe.dtos.student.UpdateStudentDto;
 import tibba.othmane.pfe.entity.Student;
 
+
 public interface IStudentService {
 	public ResponseEntity<Student> createStudent(CreateStudentDto studentDto);
 	public ResponseEntity<List<Student>> findAll();
 	public ResponseEntity<Student> updateStudent(UpdateStudentDto studentDto);
 	public ResponseEntity<?> deleteStudent(int id);
+	public ResponseEntity<Student> findById(int id);
 }

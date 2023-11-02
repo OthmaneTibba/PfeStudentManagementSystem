@@ -29,4 +29,5 @@ public class Pfe {
 	private Student student;
 	@OneToOne
 	private Supervisor supervisor;
+	
 }

@@ -9,7 +9,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import tibba.othmane.pfe.customexception.offer.OfferNotFoundException;
 import tibba.othmane.pfe.customexception.students.StudentNotFoundException;
+import tibba.othmane.pfe.customexception.supervisor.SupervisorNotFoundException;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
@@ -34,4 +36,25 @@ public class CustomExceptionHandler {
 		errorMap.put("message", e.getMessage());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMap);
 	}
+	
+	
+	@ExceptionHandler(SupervisorNotFoundException.class)
+	public ResponseEntity<Map<String, Object>> handleSupervisorNotFound(SupervisorNotFoundException e){
+		Map<String, Object> errorMap = new HashMap<>();
+		errorMap.put(errorCodeKey, HttpStatus.NOT_FOUND.value());
+		errorMap.put("message", e.getMessage());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMap);
+	}
+	
+	
+	@ExceptionHandler(OfferNotFoundException.class)
+	public ResponseEntity<Map<String, Object>> handleOfferNotFound(OfferNotFoundException e){
+		Map<String, Object> errorMap = new HashMap<>();
+		errorMap.put(errorCodeKey, HttpStatus.NOT_FOUND.value());
+		errorMap.put("message", e.getMessage());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMap);
+	}
+	
+	
+	
 }

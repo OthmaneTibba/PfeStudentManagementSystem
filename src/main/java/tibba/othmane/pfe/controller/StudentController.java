@@ -3,6 +3,7 @@ package tibba.othmane.pfe.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import tibba.othmane.pfe.dtos.student.CreateStudentDto;
 import tibba.othmane.pfe.dtos.student.UpdateStudentDto;
 import tibba.othmane.pfe.entity.Student;
 import tibba.othmane.pfe.service.iservice.IStudentService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
@@ -33,11 +37,18 @@ public class StudentController {
 		return studentService.findAll();
 	}
 	
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Student> findById(@PathVariable int id){
+		return studentService.findById(id);
+	}
+	
 	@PostMapping("/create")
 	public ResponseEntity<Student> createStudent(@RequestBody @Valid CreateStudentDto studentDto){
 		return studentService.createStudent(studentDto);
 	}
 	
+
 	@PutMapping("/update")
 	public ResponseEntity<Student> updateStudent(@RequestBody @Valid UpdateStudentDto studentDto){
 		return studentService.updateStudent(studentDto);

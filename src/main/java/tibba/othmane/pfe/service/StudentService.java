@@ -44,26 +44,40 @@ public class StudentService implements IStudentService {
 
 	@Override
 	public ResponseEntity<Student> updateStudent(UpdateStudentDto studentDto) {
-			Optional<Student> student = studentRepository.findById(studentDto.getId());
-			if(!student.isPresent())
-				throw new StudentNotFoundException(STUDENT_NOT_FOUND);
-			student.get().setFirstName(studentDto.getFirstName());
-			student.get().setLastName(studentDto.getLastName());
-			student.get().setEmail(studentDto.getEmail());
-			student.get().setBranch(studentDto.getBranch());
-			student.get().setPhoneNumber(studentDto.getPhoneNumber());
-			student.get().setGroupe(studentDto.getGroupe());
-			studentRepository.save(student.get());
-			return ResponseEntity.status(HttpStatus.OK).body(student.get());
+			Student student = studentRepository
+					.findById(studentDto.getId())
+					.orElseThrow(() -> new StudentNotFoundException(STUDENT_NOT_FOUND));
+			student.setFirstName(studentDto.getFirstName());
+			student.setLastName(studentDto.getLastName());
+			student.setEmail(studentDto.getEmail());
+			student.setBranch(studentDto.getBranch());
+			student.setPhoneNumber(studentDto.getPhoneNumber());
+			student.setGroupe(studentDto.getGroupe());
+			studentRepository.save(student);
+			return ResponseEntity
+					.status(HttpStatus.OK)
+					.body(student);
 	}
+	
+	
+	
 
 	@Override
 	public ResponseEntity<?> deleteStudent(int id) {
-		Optional<Student> student = studentRepository.findById(id);
-		if(!student.isPresent())
-			throw new StudentNotFoundException(STUDENT_NOT_FOUND);
-		studentRepository.delete(student.get());
+		Student student = studentRepository
+				.findById(id)
+				.orElseThrow(() -> new StudentNotFoundException(STUDENT_NOT_FOUND));
+		studentRepository.delete(student);
 		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+
+	@Override
+	public ResponseEntity<Student> findById(int id) {
+		Student student = studentRepository.findById(id)
+				.orElseThrow(() -> new StudentNotFoundException(STUDENT_NOT_FOUND));
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(student);
 	}
 
 }
